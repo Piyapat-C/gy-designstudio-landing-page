@@ -1,20 +1,29 @@
 // Run Mongose
-const mongoose = require('mongoose')
+import dotenv from "dotenv";
+import mongoose from "mongoose";
 
 //Connect to MongoDB
-const dbUrl = 'mongodb+srv://gy-studio:gem&yokstudio@cluster0.iqegztt.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-mongoose.connect(dbUrl,{
-    useNewUrlParser:true, 
-    useUnifiedTopology:true
-}).catch(error=>console.log(error))
+dotenv.config();
+const dbURL = process.env.MONGODB_URI;
+mongoose
+  .connect(dbURL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Conneected to database");
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
 // Design Schema
-let clientSchema = mongoose.Schema({
-    email:String
-}, { timestamps: true})
+let clientSchema = mongoose.Schema(
+  {
+    email: String,
+  },
+  { timestamps: true }
+);
 
 //Build Model
-let Client = mongoose.model("clients", clientSchema)
+let Client = mongoose.model("clients", clientSchema);
 
 //Export Model
-module.exports = Client 
+export default Client;
